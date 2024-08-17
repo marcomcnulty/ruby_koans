@@ -29,11 +29,16 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 #
 # Your goal is to write the score method.
 
-def score(dice)
-  # You need to write this method
-end
+
+# I swapped the order of the method and the class to leverage a constant and custom error class for my
+# solution.
 
 class AboutScoringProject < Neo::Koan
+  NUMBERS = [1, 2, 3, 4, 5, 6]
+
+  class InvalidDiceError < ArgumentError
+  end
+
   def test_score_of_an_empty_list_is_zero
     assert_equal 0, score([])
   end
@@ -73,5 +78,37 @@ class AboutScoringProject < Neo::Koan
     assert_equal 1200, score([1,1,1,1,1])
     assert_equal 1150, score([1,1,1,5,1])
   end
+end
 
+def score(dice)
+  raise ArgumentError.new("Must be an array") unless dice.is_a?(Array)
+
+  num_count = Hash.new(0)
+  points = 0
+
+  for num in dice
+    raise InvalidDiceError.new("That's a dodgy dice!") unless AboutScoringProject::NUMBERS.include?(num)
+    num_count[num] += 1
+  end
+
+  num_count.each do |num, count|
+    next unless count > 0
+
+    if count >= 3
+      if num == 1
+        points += 1000
+      else
+        points += (num * 100)
+      end
+
+      count -= 3
+    end
+
+    next unless count > 0
+
+    points += (count * 100) if num == 1
+    points += (count * 50) if num == 5
+  end
+
+  points
 end
