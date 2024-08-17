@@ -29,6 +29,8 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 #
 # Your goal is to write the score method.
 
+# TIL:
+# - divmod method -> returns quotient and remainder of the division e.g. q, r = 4.divmod(3) -> [1, 1] -> q == 1, r == 1
 
 # I swapped the order of the method and the class to leverage a constant and custom error class for my
 # solution.
@@ -112,3 +114,20 @@ def score(dice)
 
   points
 end
+
+# ChatGPT Code Review:
+# - raise error immediately if more than 5 dice provided
+# - For efficiency when handling large inputs, use array e.g.
+#   Initialize an array to count occurrences of each dice value -> counts = [0] * 7. Index 0 goes unused, 1-6 represents
+#   dice numbers.
+# Add counts same way then:
+#
+#   (1..6).each do |num|
+#     if counts[num] >= 3
+#       points += (num == 1) ? 1000 : num * 100
+#       counts[num] -= 3
+#     end
+#   end
+#
+#   points += counts[1] * 100
+#   points += counts[5] * 50
