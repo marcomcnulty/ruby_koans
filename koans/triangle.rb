@@ -35,6 +35,17 @@ def triangle(a, b, c)
   :isosceles
 end
 
+# ChatGPT Code Review:
+# Should raise TriangleError with a message e.g.raise TriangleError.new("Sides must be positive") if [a, b, c].min <= 0
+# Check for the triangle inequality violation e.g.
+# raise TriangleError.new("Invalid side lengths for a triangle") unless a + b > c
+# Simplify the checks:
+# - Because we've already sorted the sides, if a == c then a must also equal b -> return :equilateral if a == c
+# - Now that we've ruled out all sides being equal, we can check for exactly two sides being equal i.e. isosceles:
+#   - return :isosceles if a == b || b == c
+# - Given that we've ensured we have a valid triangle that isn't equilateral or isosceles, we can safely assume it's
+#   scalene.
+
 # Error class used in part 2.  No need to change this code.
 class TriangleError < StandardError
 end
