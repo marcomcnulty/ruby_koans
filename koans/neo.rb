@@ -518,7 +518,7 @@ ENDTEXT
       each_step do |step|
         sensei.observe(step.meditate)
       end
-      sensei.instruct
+      # sensei.instruct
     end
 
     def each_step
