@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/neo')
+require 'debug'
 
 # Greed is a dice game where you roll up to five dice to accumulate
 # points.  The following "score" function will be used to calculate the
@@ -82,8 +83,63 @@ class AboutScoringProject < Neo::Koan
   end
 end
 
+# score implementation for about_scoring_project
+# def score(dice)
+#   raise ArgumentError.new("Must be an array!") unless dice.is_a?(Array)
+#   raise ArgumentError.new("Maximum 5 dice!") if dice.size > 5
+
+#   num_count = Hash.new(0)
+#   points = 0
+
+#   for num in dice
+#     raise InvalidDiceError.new("That's a dodgy dice!") unless AboutScoringProject::NUMBERS.include?(num)
+#     num_count[num] += 1
+#   end
+
+#   num_count.each do |num, count|
+#     next unless count > 0
+
+#     if count >= 3
+#       if num == 1
+#         points += 1000
+#       else
+#         points += (num * 100)
+#       end
+
+#       count -= 3
+#     end
+
+#     next unless count > 0
+
+#     points += (count * 100) if num == 1
+#     points += (count * 50) if num == 5
+#   end
+
+#   points
+# end
+
+# ChatGPT Code Review:
+# - raise error immediately if more than 5 dice provided
+# - For efficiency when handling large inputs, use array e.g.
+#   Initialize an array to count occurrences of each dice value -> counts = [0] * 7. Index 0 goes unused, 1-6 represents
+#   dice numbers.
+# Add counts same way then:
+#
+#   (1..6).each do |num|
+#     if counts[num] >= 3
+#       points += (num == 1) ? 1000 : num * 100
+#       counts[num] -= 3
+#     end
+#   end
+#
+#   points += counts[1] * 100
+#   points += counts[5] * 50
+
+
+# modified score implementation for Greed game
 def score(dice)
-  raise ArgumentError.new("Must be an array") unless dice.is_a?(Array)
+  raise ArgumentError.new("Must be an array!") unless dice.is_a?(Array)
+  raise ArgumentError.new("Maximum 5 dice!") if dice.size > 5
 
   num_count = Hash.new(0)
   points = 0
@@ -106,28 +162,18 @@ def score(dice)
       count -= 3
     end
 
-    next unless count > 0
+    if num == 1
+      points += (count * 100)
+      count = 0
+    end
 
-    points += (count * 100) if num == 1
-    points += (count * 50) if num == 5
+    if num == 5
+      points += (count * 50)
+      count = 0
+    end
+
+    num_count[num] = count
   end
 
-  points
+  [points, num_count]
 end
-
-# ChatGPT Code Review:
-# - raise error immediately if more than 5 dice provided
-# - For efficiency when handling large inputs, use array e.g.
-#   Initialize an array to count occurrences of each dice value -> counts = [0] * 7. Index 0 goes unused, 1-6 represents
-#   dice numbers.
-# Add counts same way then:
-#
-#   (1..6).each do |num|
-#     if counts[num] >= 3
-#       points += (num == 1) ? 1000 : num * 100
-#       counts[num] -= 3
-#     end
-#   end
-#
-#   points += counts[1] * 100
-#   points += counts[5] * 50

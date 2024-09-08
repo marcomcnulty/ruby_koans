@@ -14,7 +14,9 @@ class DiceSet
 
   def roll(number)
     self.values = []
-    number.times { self.values << rand(1..6) }
+    number.times { values << rand(1..6) }
+
+    values
   end
 end
 
