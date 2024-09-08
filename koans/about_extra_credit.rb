@@ -33,13 +33,16 @@ require "stringio"
 # - Lambdas are awesome!
 # - When nesting classes, it often helps to pass a reference of the enclosing class to the nested class, so that the
 #   nested class is aware of its context.
+# - Variables defined in a for loop block are accessible outside of the block because for loops do not create their own
+#   scope.
 # - Methods:
 #   - all? -> condition satisfied within all iterations of the block
 #   - any? -> at least one condition satisfied within all iteration of the block
-#   -
+#   - max_by -> returns the object that gives the maximum value from the given block
+#   - min_by -> returns the object that gives the minimum value from the given block
 
 class Game
-  attr_accessor :players, :rounds, :final_round
+  attr_reader :players, :rounds, :final_round
 
   class PlayerCountError < ArgumentError
   end
@@ -115,8 +118,8 @@ class Game
   end
 
   class Player
-    attr_accessor :name, :turn_score, :total_score, :turn_state, :turns
-    attr_reader :game
+    attr_accessor :turns
+    attr_reader :name, :turn_score, :total_score, :turn_state, :game
 
     def initialize(name, game)
       @name = name
@@ -346,6 +349,6 @@ class GreedGameTests
   end
 end
 
-GreedGameTests.new.run_tests
-# g = Game.new(2)
-# g.play_game
+# GreedGameTests.new.run_tests
+g = Game.new(2)
+g.play_game

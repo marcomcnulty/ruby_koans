@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/neo')
+require File.expand_path(File.dirname(__FILE__) + "/neo")
 
 # TIL:
 # - When expecting a random number(s) not to match e.g. in a unit test, it's best to also check object id in the rare case
@@ -75,5 +75,4 @@ class AboutDiceProject < Neo::Koan
     dice.roll(1)
     assert_equal 1, dice.values.size
   end
-
 end
