@@ -1,9 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/neo')
 
-# TIL:
-# - Defining a class more than once, results in the class defintions being merged. If a method with the same name exists
-# in both classes, the method defined last will overwrite the previously defined method.
-
 class AboutOpenClasses < Neo::Koan
   class Dog
     def bark
@@ -13,7 +9,7 @@ class AboutOpenClasses < Neo::Koan
 
   def test_as_defined_dogs_do_bark
     fido = Dog.new
-    assert_equal "WOOF", fido.bark
+    assert_equal __, fido.bark
   end
 
   # ------------------------------------------------------------------
@@ -27,8 +23,8 @@ class AboutOpenClasses < Neo::Koan
 
   def test_after_reopening_dogs_can_both_wag_and_bark
     fido = Dog.new
-    assert_equal "HAPPY", fido.wag
-    assert_equal "WOOF", fido.bark
+    assert_equal __, fido.wag
+    assert_equal __, fido.bark
   end
 
   # ------------------------------------------------------------------
@@ -40,8 +36,8 @@ class AboutOpenClasses < Neo::Koan
   end
 
   def test_even_existing_built_in_classes_can_be_reopened
-    assert_equal false, 1.answer_to_life_universe_and_everything?
-    assert_equal true, 42.answer_to_life_universe_and_everything?
+    assert_equal __, 1.answer_to_life_universe_and_everything?
+    assert_equal __, 42.answer_to_life_universe_and_everything?
   end
 
   # NOTE: To understand why we need the :: before Integer, you need to

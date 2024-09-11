@@ -1,24 +1,10 @@
-require File.expand_path(File.dirname(__FILE__) + "/neo")
-
-# TIL:
-# - When expecting a random number(s) not to match e.g. in a unit test, it's best to also check object id in the rare case
-#   that a random number(s) is selected more than once.
+require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 # Implement a DiceSet Class here:
-class DiceSet
-  attr_accessor :values
-
-  def initialize
-    @values = []
-  end
-
-  def roll(number)
-    self.values = []
-    number.times { values << rand(1..6) }
-
-    values
-  end
-end
+#
+# class DiceSet
+#   code ...
+# end
 
 class AboutDiceProject < Neo::Koan
   def test_can_create_a_dice_set
@@ -45,14 +31,6 @@ class AboutDiceProject < Neo::Koan
     assert_equal first_time, second_time
   end
 
-  # THINK ABOUT IT:
-  #
-  # If the rolls are random, then it is possible (although not
-  # likely) that two consecutive rolls are equal.  What would be a
-  # better way to test this?
-
-  # Answer found here: http://stackoverflow.com/questions/2082970/whats-the-best-way-to-test-this
-
   def test_dice_values_should_change_between_rolls
     dice = DiceSet.new
 
@@ -62,8 +40,14 @@ class AboutDiceProject < Neo::Koan
     dice.roll(5)
     second_time = dice.values
 
-    assert_not_equal [first_time, first_time.object_id],
-      [second_time, second_time.object_id], "Two rolls should not be equal"
+    assert_not_equal first_time, second_time,
+      "Two rolls should not be equal"
+
+    # THINK ABOUT IT:
+    #
+    # If the rolls are random, then it is possible (although not
+    # likely) that two consecutive rolls are equal.  What would be a
+    # better way to test this?
   end
 
   def test_you_can_roll_different_numbers_of_dice
@@ -75,4 +59,5 @@ class AboutDiceProject < Neo::Koan
     dice.roll(1)
     assert_equal 1, dice.values.size
   end
+
 end

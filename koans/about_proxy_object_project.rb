@@ -1,12 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/neo')
 
-# TIL:
-# - The method_missing method can be overridden to dynamically handle method calls that aren't explicitly defined.
-# - When defining a custom method_missing method, it is good practice to also define a respond_to_missing? method
-#   that allows respond_to to accurately report whether the object can handle a method call that is not explicitly
-#   defined.
-# - Make sure to use super to delegate to the parent object's behaviour where necessary.
-
 # Project: Create a Proxy Class
 #
 # In this assignment, create a proxy class (one is started for you
@@ -20,33 +13,12 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # of the Proxy class is given in the AboutProxyObjectProject koan.
 
 class Proxy
-  attr_reader :object, :messages
-
   def initialize(target_object)
     @object = target_object
-    @messages = []
+    # ADD MORE CODE HERE
   end
 
-  def method_missing(method_name, *args, &block)
-    if object.respond_to?(method_name)
-      messages << method_name
-      object.send(method_name, *args, &block)
-    else
-      super(method_name, *args, &block)
-    end
-  end
-
-  def respond_to_missing?(method_name, include_private = false)
-    method_name.to_s.end_with?("=") || super
-  end
-
-  def called?(method_name)
-    messages.include?(method_name)
-  end
-
-  def number_of_times_called(method_name)
-    messages.count(method_name)
-  end
+  # WRITE CODE HERE
 end
 
 # The proxy object should pass the following Koan:
@@ -177,12 +149,8 @@ class TelevisionTest < Neo::Koan
 
   def test_can_set_the_channel
     tv = Television.new
-    # tv = Proxy.new(Television.new)
 
     tv.channel = 11
     assert_equal 11, tv.channel
   end
 end
-
-# test = TelevisionTest.new
-# test.test_can_set_the_channel
